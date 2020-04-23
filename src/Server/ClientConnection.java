@@ -16,7 +16,6 @@ public class ClientConnection implements Runnable {
     private final AtomicBoolean running = new AtomicBoolean(false);
     private ObjectOutputStream output;
     private ObjectInputStream input;
-
     private UserInformation information;
 
     public ClientConnection(Socket socket, Service service) {

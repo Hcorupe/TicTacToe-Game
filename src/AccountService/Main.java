@@ -22,7 +22,7 @@ public class Main extends Application
         AccountService service = new AccountService();
         service.start();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../UI/ServerUI/ServerDisplay.fxml"));
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("../UI/ServerUI/ServerDisplay.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
