@@ -5,6 +5,10 @@ import DataBase.sql.DatabaseManager;
 import Server.ClientConnection;
 import Server.Service;
 import Shared.Packet;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -24,6 +28,7 @@ public class AccountService implements Service, Runnable {
     private DataSource ds = DatabaseManager.getInstance();
 
     public AccountService() {
+
     }
 
     public void start() {

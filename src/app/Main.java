@@ -26,12 +26,7 @@ public class Main extends Application {
         clientController.run();
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../UI/ServerUI/ServerDisplay.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
 
-        stage.setScene(scene);
-        stage.show();
 
     }
 }
