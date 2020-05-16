@@ -147,7 +147,7 @@ public class ServerDisplay implements Initializable, ServiceListener {
             information.setUsername(event.getNewValue());
 
             if(event.getNewValue().isBlank()){
-               
+
                 System.out.println("Enter UserName");
             }else {
                 try {
