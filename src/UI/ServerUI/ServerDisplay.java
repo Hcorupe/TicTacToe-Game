@@ -62,10 +62,12 @@ public class ServerDisplay implements Initializable, ServiceListener {
     private ObservableList<UserInformation> onlinePlayersList = FXCollections.observableArrayList();
     private ObservableList<UserInformation> allPlayersList = FXCollections.observableArrayList();
     private ServiceListener serviceListener = AccountService.getInstance();
+
     private Parent display;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         initializeAGTable();
         initializeAPTable();
         initializeGTable();
@@ -94,7 +96,7 @@ public class ServerDisplay implements Initializable, ServiceListener {
         startTime_G.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         endTime_G.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         result_G.setCellValueFactory(new PropertyValueFactory<>("winningPlayerId"));
-        spectators_G.setCellValueFactory(new PropertyValueFactory<>("spectators"));
+        //spectators_G.setCellValueFactory(new PropertyValueFactory<>("spectators"));
         games.setRowFactory(tv -> {
             TableRow<GameInformation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {

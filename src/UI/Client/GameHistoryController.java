@@ -34,7 +34,8 @@ public class GameHistoryController implements Initializable, GameHistoryListener
     @FXML
     private TableView gameHistoryTable;
     @FXML
-    private TableColumn<GameInformation, String> gameID, opponent, startTime, endTime, results;
+    //private TableColumn<GameInformation, String> gameID, opponent, startTime, endTime, results;
+    private TableColumn<GameInformation, String> gameID, Player1,Player2, startTime, endTime, results;
     @FXML
     private Button backButton;
 
@@ -51,7 +52,9 @@ public class GameHistoryController implements Initializable, GameHistoryListener
     private void initializeTable() {
         gameHistoryTable.setItems(data);
         gameID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        opponent.setCellValueFactory(new PropertyValueFactory<>("player2Username"));
+        //opponent.setCellValueFactory(new PropertyValueFactory<>("player2Username"));
+        Player1.setCellValueFactory(new PropertyValueFactory<>("Player1"));
+        Player2.setCellValueFactory(new PropertyValueFactory<>("Player2"));
         startTime.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         endTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         results.setCellValueFactory(new PropertyValueFactory<>("winningPlayerId"));
