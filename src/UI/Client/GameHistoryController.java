@@ -53,8 +53,8 @@ public class GameHistoryController implements Initializable, GameHistoryListener
         gameHistoryTable.setItems(data);
         gameID.setCellValueFactory(new PropertyValueFactory<>("id"));
         //opponent.setCellValueFactory(new PropertyValueFactory<>("player2Username"));
-        Player1.setCellValueFactory(new PropertyValueFactory<>("Player1"));
-        Player2.setCellValueFactory(new PropertyValueFactory<>("Player2"));
+        Player1.setCellValueFactory(new PropertyValueFactory<>("Player1Username"));
+        Player2.setCellValueFactory(new PropertyValueFactory<>("Player2Username"));
         startTime.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         endTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         results.setCellValueFactory(new PropertyValueFactory<>("winningPlayerId"));
