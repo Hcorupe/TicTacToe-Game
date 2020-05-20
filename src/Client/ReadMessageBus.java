@@ -131,6 +131,9 @@ public class ReadMessageBus implements Runnable {
                         case Packet.GAME_HISTORY_INFO:
                             gameHistoryListener.updateHistory((List<GameInformation>)response.getData());
                             break;
+                        case Packet.GET_RECORD:
+                            gameHistoryListener.updateRecord((List<GameInformation>)response.getData());
+                            break;
                     }
                 }
             }

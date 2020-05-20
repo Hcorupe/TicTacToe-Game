@@ -58,7 +58,6 @@ public class AccountHandler implements Runnable {
                 String[] str = SignInStr.trim().split("\\s+");
                 String userName = str[0];
                 String password = str[1];
-
                 Packet packet;
                 try {
                     if (server.login(userName, password)) { //if true the DB found user record
@@ -66,17 +65,12 @@ public class AccountHandler implements Runnable {
                         List<BaseModel> items;
                         items = ds.query(UserInformation.class, " username = '" + userName + "' AND password = '" + password + "'");
                         packet = new Packet(Packet.SIGN_IN, userInformation, items.get(0));
-
                         clientConnection.sendPacketToClient(packet);
                         clientConnection.setInformation((UserInformation) items.get(0));
                         service.addOnlinePlayer((UserInformation) items.get(0));
-
-
                         // update server display
                         Packet notifyLoginSuccessful = new Packet(Packet.SIGN_IN, null, clientConnection.getInformation());
                         service.notifyServerDisplay(notifyLoginSuccessful);
-
-
                     } else {
                         packet = new Packet(Packet.SIGN_IN, userInformation, "FAIL");
                         clientConnection.sendPacketToClient(packet);
@@ -86,16 +80,17 @@ public class AccountHandler implements Runnable {
                     stop();
                 }
                 break;
+
             case Packet.SIGN_OUT:
                 // update server display
                 Packet notifySignOut = new Packet(Packet.SIGN_OUT, null, clientConnection.getInformation());
                 service.notifyServerDisplay(notifySignOut);
                 service.removeAccount(clientConnection);
-
                 break;
+
             case Packet.REGISTER_CLIENT:
                 String registerString = data.toString();
-                System.out.println("data = " + data.toString());
+                //System.out.println("data = " + data.toString());
                 String[] str2 = registerString.trim().split("\\s+");
                 String newFirstName = str2[0];
                 String newLastName = str2[1];
@@ -114,19 +109,18 @@ public class AccountHandler implements Runnable {
                 } catch (SQLException e) {
                     regPacket = new Packet(Packet.REGISTER_CLIENT, userInformation, "FAIL");
                 }
-
                 clientConnection.sendPacketToClient(regPacket);
                 break;
+
             case Packet.UPDATE_USER:
                 String UpdateString = data.toString();
-                System.out.println("DataToString  = " + data.toString()); // This comes in fine
+                //System.out.println("DataToString  = " + data.toString()); // This comes in fine
                 String[] str3 = UpdateString.trim().split("\\s+");
                 String UpdateUserName = str3[0];
                 String UpdateFirstName = str3[1];
                 String UpdateLastName = str3[2];
                 String Id = str3[3];
                 String UpdatePassword = str3[4];
-
                 try {
                     if (ds.update(UpdateFirstName, UpdateLastName, UpdateUserName, Id, UpdatePassword)) {
                         UserInformation newInformation = new UserInformation(UpdateFirstName, UpdateLastName, UpdateUserName, null, UpdatePassword);
@@ -178,15 +172,12 @@ public class AccountHandler implements Runnable {
             case Packet.GAME_HISTORY_INFO:
                 String GameInfoString = data.toString();
                 String[] str6 = GameInfoString.trim().split("\\s+");
-                System.out.println("GameInfoServer String " + data.toString());
+                //System.out.println("GameInfoServer String " + data.toString());
                 String id = str6[0];
                 String username = str6[1];
-
                 try {
                     List<GameInformation> gameInformation = new ArrayList<>();
                     gameInformation = ds.getPlayerGamesInfo(id, username);
-
-
                     if (gameInformation.isEmpty()) {
                         stop();
                     } else {
@@ -194,16 +185,33 @@ public class AccountHandler implements Runnable {
                         clientConnection.sendPacketToClient(info);
                         System.out.println("Packet sent successfully ");
                     }
-
-
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                //Packet packet2 = new Packet(Packet.GAME_INFO_SEVER,userInformation,data);
-                //clientConnection.sendPacketToClient(packet2);
+                break;
+
+            case Packet.GET_RECORD:
+                String gameRecord = data.toString();
+                String[] str7 = gameRecord.trim().split("\\s+");
+                //System.out.println("GameInfoServer String " + data.toString());
+                String playerId = str7[0];
+                try{
+                    List<GameInformation> gameInformation = new ArrayList<>();
+                    gameInformation = ds.getGameRecord(playerId);
+                    if (gameInformation.isEmpty()) {
+                        stop();
+                    } else {
+                        Packet info = new Packet(Packet.GET_RECORD, userInformation, (Serializable) gameInformation);
+                        clientConnection.sendPacketToClient(info);
+                        System.out.println("Packet sent successfully ");
+                    }
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+                break;
+
         }
 
-        stop();
     }
 
     public boolean getRunning() {

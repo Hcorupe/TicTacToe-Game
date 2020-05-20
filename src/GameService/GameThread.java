@@ -141,11 +141,15 @@ public class GameThread implements Runnable {
                             } else if (game.isTieGame()) {
                                 System.out.println("Tie Game");
                                 Packet tieGame = new Packet(Packet.GAME_STATUS, null, game.getId() + " " + "Tie!");
-
                                 player1.sendPacketToClient(tieGame);
                                 player2.sendPacketToClient(tieGame);
                                 game.notifyObservers(tieGame);
                                 game.setEndTime();
+                                try{
+                                    ds.insertGame(game);
+                                }catch (SQLException e){
+                                    e.printStackTrace();
+                                }
                             }
                         } else {
                             System.out.println("Not a valid move");
@@ -195,6 +199,11 @@ public class GameThread implements Runnable {
                                 player2.sendPacketToClient(tieGame);
                                 game.notifyObservers(tieGame);
                                 game.setEndTime();
+                                try{
+                                    ds.insertGame(game);
+                                }catch (SQLException e){
+                                    e.printStackTrace();
+                                }
                             }
                         } else {
                             System.out.println("Not a valid move");

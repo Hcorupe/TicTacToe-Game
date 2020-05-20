@@ -22,7 +22,7 @@ public class Packet implements Serializable {
     public static final String GAME_CLOSE = "GAME_CLOSE";
     public static final String AI_GAME = "AI_GAME";
     public static final String GAME_HISTORY_INFO = "GAME_HISTORY_INFO";
-
+    public static final String GET_RECORD = "GET_RECORD";
     public static final String ALL_GAME_INFO = "ALL_GAME_INFO";
 
     public static final String DATABASE_STATUS = "DB STATUS";

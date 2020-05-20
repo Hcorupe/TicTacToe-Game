@@ -67,6 +67,7 @@ public class MainMenuController implements Initializable {
         stage.show();
 
         clientController.getGameHistoryController().GetGameinfo();
+        clientController.getGameHistoryController().getRecord();
     }
 
 

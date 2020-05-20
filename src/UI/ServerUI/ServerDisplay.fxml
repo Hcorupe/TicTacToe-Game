@@ -42,12 +42,11 @@
                   <TableView fx:id="games" editable="true" prefHeight="717.0" prefWidth="952.0">
                      <columns>
                         <TableColumn fx:id="gameID_G" prefWidth="136.0" text="Game ID" />
-                        <TableColumn fx:id="player1_G" prefWidth="136.0" text="Player 1" />
-                        <TableColumn fx:id="player2_G" prefWidth="136.0" text="Player 2" />
-                        <TableColumn fx:id="startTime_G" prefWidth="136.0" text="Start Time" />
-                        <TableColumn fx:id="endTime_G" prefWidth="136.0" text="End Time" />
-                        <TableColumn fx:id="result_G" prefWidth="136.0" text="Winning Player" />
-                        <TableColumn fx:id="spectators_G" prefWidth="136.0" text="Spectators" />
+                        <TableColumn fx:id="player1_G" prefWidth="167.0" text="Player 1" />
+                        <TableColumn fx:id="player2_G" prefWidth="164.0" text="Player 2" />
+                        <TableColumn fx:id="startTime_G" prefWidth="159.0" text="Start Time" />
+                        <TableColumn fx:id="endTime_G" prefWidth="146.0" text="End Time" />
+                        <TableColumn fx:id="result_G" prefWidth="151.0" text="Winning Player" />
                      </columns>
                   </TableView>
                </children>

@@ -31,6 +31,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class GameHistoryController implements Initializable, GameHistoryListener {
+    public Label winLabel;
+    public Label lossLabel;
+    public Label tieLabel;
     @FXML
     private TableView gameHistoryTable;
     @FXML
@@ -58,6 +61,7 @@ public class GameHistoryController implements Initializable, GameHistoryListener
         startTime.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         endTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         results.setCellValueFactory(new PropertyValueFactory<>("winningPlayerId"));
+
         gameHistoryTable.setRowFactory(tv -> {
             TableRow<GameInformation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -108,6 +112,14 @@ public class GameHistoryController implements Initializable, GameHistoryListener
         clientController.getAccountClient().addRequestToServer(packet);
     }
 
+    public void getRecord(){
+        String id = clientController.getAccountClient().getUserInformation().getId();
+        List<String> user = new ArrayList<>();
+        user.add(id);
+        String data = String.join(" ", user);
+        Packet packet = new Packet(Packet.GET_RECORD, clientController.getAccountClient().getUserInformation(), data);
+        clientController.getAccountClient().addRequestToServer(packet);
+    }
     
 
     public void getServerInfo(String message) {
@@ -135,9 +147,31 @@ public class GameHistoryController implements Initializable, GameHistoryListener
         });
     }
 
-    public void updateGameHistory(GameInformation gameInformation) {
+    @Override
+    public void updateRecord(List<GameInformation> list) {
+        Platform.runLater(() -> {
+            int wins = 0;
+            int lose = 0;
+            int tie = 0;
+            for(GameInformation game : list){
+                game.getWins();
+                game.getLose();
+                game.getTie();
+                if(game.getWins() == 1){
+                    wins++;
+                }if(game.getLose() == 1){
+                    lose++;
+                }if(game.getTie() == 1){
+                    tie++;
+                }
 
+            }
+                winLabel.setText("Wins = " + wins);
+                lossLabel.setText("Losses = " + lose);
+                tieLabel.setText("Ties = " + tie);
+        });
     }
+
 
     public void backButtonClicked(ActionEvent event) {
         Stage stage = null;

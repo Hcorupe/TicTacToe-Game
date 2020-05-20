@@ -28,6 +28,7 @@ public interface DataSource {
     boolean delete(String Id) throws SQLException;
     boolean Activate(String Id) throws SQLException;
     List<GameInformation> getPlayerGamesInfo(String PlayerId,String username) throws SQLException;
+    public List<GameInformation> getGameRecord(String PlayerId) throws SQLException;
 
     Boolean update(String UpdateFirstName,String UpdateLastName,String UpdateUserName,String Id,String UpdatePassword) throws SQLException;
 

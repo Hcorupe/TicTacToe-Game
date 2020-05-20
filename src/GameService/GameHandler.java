@@ -75,7 +75,7 @@ public class GameHandler implements Runnable {
                 aiPlayer.start();
                 Packet aiPacket = new Packet(Packet.NEW_GAME_CREATED, clientConnection.getInformation(), aiGame);
                 clientConnection.sendPacketToClient(aiPacket);
-
+                break;
 
             case Packet.JOIN_GAME:
                 try {

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface GameHistoryListener {
     void updateHistory(List<GameInformation> list);
+    void updateRecord(List<GameInformation> list);
 }

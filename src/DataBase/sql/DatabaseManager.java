@@ -174,10 +174,48 @@ public class DatabaseManager implements DataSource {  // subscribing to sign in 
         return items;
     }
 
+    public List<GameInformation> getGameRecord(String PlayerId) throws SQLException {
+        String sql = "SELECT game.Player1Id, game.Player2Id, game.WinningPlayerId\n" +
+                "FROM game\n" +
+                "WHERE game.Player1Id='3aa2c7e4-003d-401f-98d1-8f476aca8ce7' or game.Player2Id='3aa2c7e4-003d-401f-98d1-8f476aca8ce7'";
+
+        GameStatement = myConn.prepareStatement(sql);
+        ResultSet rs = GameStatement.executeQuery(sql);
+        //System.out.println(sql);
+        List<GameInformation> gameRecord = new ArrayList<>();
+
+        while (rs.next()) {
+            GameInformation gameInformation = new GameInformation();
+            gameInformation.setPlayer1Id(rs.getString("Player1Id"));
+            gameInformation.setPlayer2Id(rs.getString("Player2Id"));
+            gameInformation.setWinningPlayerId(rs.getString("WinningPlayerId"));
+
+            if(gameInformation.getWinningPlayerId().equals(gameInformation.getPlayer1Id()) && PlayerId.equals(gameInformation.getPlayer1Id())){
+                gameInformation.setWins(gameInformation.getWins()+1);
+            }
+            if(gameInformation.getWinningPlayerId().equals(gameInformation.getPlayer2Id()) && PlayerId.equals(gameInformation.getPlayer2Id())){
+                gameInformation.setWins(gameInformation.getWins()+1);
+            }
+            if(gameInformation.getWinningPlayerId().equals(gameInformation.getPlayer1Id()) && !PlayerId.equals(gameInformation.getPlayer1Id())){
+                gameInformation.setLose(gameInformation.getLose()+1);
+            }
+            if(gameInformation.getWinningPlayerId().equals(gameInformation.getPlayer2Id()) && !PlayerId.equals(gameInformation.getPlayer2Id())){
+                gameInformation.setLose(gameInformation.getLose()+1);
+            }
+            if(gameInformation.getWinningPlayerId().equals("Tie Game")){
+                gameInformation.setTie(gameInformation.getTie()+1);
+            }
+
+
+            gameRecord.add(gameInformation);
+
+        }
+        return gameRecord;
+    }
+
 
     public List<GameInformation> getAllGamesInfo() throws SQLException{
 
-        //String sql = "SELECT * FROM game";
         String sql = "SELECT game.gameID, game.StartTime, game.EndTime,\n" +
                 "(SELECT user.username FROM user WHERE user.id = game.Player1Id) AS Player1,\n" +
                 "(SELECT user.username FROM user WHERE user.id = game.Player2Id) AS Player2,\n" +
@@ -205,8 +243,12 @@ public class DatabaseManager implements DataSource {  // subscribing to sign in 
             gameInformation.setStartTime(rs.getTimestamp("StartTime"));
             gameInformation.setEndTime(rs.getTimestamp("EndTime"));
             gameInformation.setWinningPlayerId(rs.getString("Winner"));
-            if(gameInformation.getWinningPlayerId()==null){
+
+            if(gameInformation.getWinningPlayerId() == null && gameInformation.getPlayer1Username().equals("Computer") || gameInformation.getPlayer2Username().equals("Computer")){
                 gameInformation.setWinningPlayerId("Computer");
+            }
+            else if(gameInformation.getWinningPlayerId() == null ){
+                gameInformation.setWinningPlayerId("Tie Game");
             }
             allGameInfo.add(gameInformation);
         }
@@ -243,21 +285,31 @@ public class DatabaseManager implements DataSource {  // subscribing to sign in 
             gameInformation.setStartTime(rs.getTimestamp("game.StartTime"));
             gameInformation.setEndTime(rs.getTimestamp("game.EndTime"));
             gameInformation.setPlayer1Username(rs.getString("Player1"));
+
             if(gameInformation.getPlayer1Username()==null){
                 gameInformation.setPlayer1Username("Computer");
             }
             gameInformation.setPlayer2Username(rs.getString("Player2"));
+
             if(gameInformation.getPlayer2Username()==null){
                 gameInformation.setPlayer2Username("Computer");
             }
             gameInformation.setWinningPlayerId(rs.getString("Winner"));
-            if(gameInformation.getWinningPlayerId()==null){
+
+            if(gameInformation.getWinningPlayerId()==null && gameInformation.getPlayer2Username().equals("Computer") ){
                 gameInformation.setWinningPlayerId("Computer");
             }
+            if(gameInformation.getWinningPlayerId() == null){
+                gameInformation.setWinningPlayerId("Tie");
+            }
+
+
             gameInformation.setStartingPlayerId(rs.getString("StartingPlayer"));
+
             if(gameInformation.getStartingPlayerId()==null){
                 gameInformation.setStartingPlayerId("Computer");
             }
+
             gameList.add(gameInformation);
         }
 
@@ -389,8 +441,14 @@ public class DatabaseManager implements DataSource {  // subscribing to sign in 
         GameStatement.setTimestamp(3, game.getEndTime());
         GameStatement.setString(4, game.getPlayer1Info().getId());
         GameStatement.setString(5, game.getPlayer2Info().getId());
-        GameStatement.setString(6, game.getWinningPlayerId());
-        GameStatement.setString(7, game.getWinningPlayerId());
+        GameStatement.setString(6,game.getPlayer1Info().getId());
+        if(game.getWinningPlayerId() == null){
+            game.setWinningPlayerId("Tie Game");
+            GameStatement.setString(7, game.getWinningPlayerId());
+        }else{
+            GameStatement.setString(7, game.getWinningPlayerId());
+        }
+        //GameStatement.setString(7, game.getWinningPlayerId());
         System.out.println(GameStatement);
         row = GameStatement.executeUpdate();
         System.out.println("Row = " + row);

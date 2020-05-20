@@ -9,11 +9,58 @@ public class GameInformation implements Serializable {
 
     private String player1Username;
     private String player2Username;
+    private String player1Id;
+    private String player2Id;
     private String id;
     private Timestamp startTime;
     private Timestamp endTime;
     private String startingPlayerId;
     private String winningPlayerId;
+    private int wins = 0;
+    private int lose = 0;
+    private int tie= 0;
+
+    public String getPlayer1Id() {
+        return player1Id;
+    }
+
+    public void setPlayer1Id(String player1Id) {
+        this.player1Id = player1Id;
+    }
+
+    public String getPlayer2Id() {
+        return player2Id;
+    }
+
+    public void setPlayer2Id(String player2Id) {
+        this.player2Id = player2Id;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public int getLose() {
+        return lose;
+    }
+
+    public void setLose(int lose) {
+        this.lose = lose;
+    }
+
+    public int getTie() {
+        return tie;
+    }
+
+    public void setTie(int tie) {
+        this.tie = tie;
+    }
+
+
     private List<String> spectators = new ArrayList<>();
 
     public GameInformation() {
@@ -83,4 +130,8 @@ public class GameInformation implements Serializable {
     public void setSpectators(List<String> spectators) {
         this.spectators.addAll(spectators);
     }
+
+
+
+
 }
