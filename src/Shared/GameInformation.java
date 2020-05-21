@@ -15,10 +15,28 @@ public class GameInformation implements Serializable {
     private Timestamp startTime;
     private Timestamp endTime;
     private String startingPlayerId;
+    private String startingPlayerUserName;
     private String winningPlayerId;
+    private String winningPlayerUserName;
     private int wins = 0;
     private int lose = 0;
     private int tie= 0;
+
+    public String getStartingPlayerUserName() {
+        return startingPlayerUserName;
+    }
+
+    public void setStartingPlayerUserName(String startingPlayerUserName) {
+        this.startingPlayerUserName = startingPlayerUserName;
+    }
+
+    public String getWinningPlayerUserName() {
+        return winningPlayerUserName;
+    }
+
+    public void setWinningPlayerUserName(String winningPlayerUserName) {
+        this.winningPlayerUserName = winningPlayerUserName;
+    }
 
     public String getPlayer1Id() {
         return player1Id;
