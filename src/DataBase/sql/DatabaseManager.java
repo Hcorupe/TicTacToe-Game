@@ -177,11 +177,10 @@ public class DatabaseManager implements DataSource {  // subscribing to sign in 
     public List<GameInformation> getGameRecord(String PlayerId) throws SQLException {
         String sql = "SELECT game.Player1Id, game.Player2Id, game.WinningPlayerId\n" +
                 "FROM game\n" +
-                "WHERE game.Player1Id='3aa2c7e4-003d-401f-98d1-8f476aca8ce7' or game.Player2Id='3aa2c7e4-003d-401f-98d1-8f476aca8ce7'";
+                "WHERE game.Player1Id='"+ PlayerId + "'" +" or game.Player2Id='"+ PlayerId + "'" ;
 
         GameStatement = myConn.prepareStatement(sql);
         ResultSet rs = GameStatement.executeQuery(sql);
-        //System.out.println(sql);
         List<GameInformation> gameRecord = new ArrayList<>();
 
         while (rs.next()) {
@@ -261,7 +260,7 @@ public class DatabaseManager implements DataSource {  // subscribing to sign in 
     public List<GameInformation> getPlayerGamesInfo(String PlayerId,String username) throws SQLException {
 
         String sql =
-                "SELECT DISTINCT (game.gameID), game.StartTime, game.EndTime,\n" +
+                "SELECT DISTINCT (game.gameID), game.StartTime, game.EndTime, game.StartingPlayerId,\n" +
                 "(SELECT user.username FROM user WHERE user.id = game.Player1Id) AS Player1,\n" +
                 "(SELECT user.username FROM user WHERE user.id = game.Player2Id) AS Player2,\n" +
                 "(SELECT user.username FROM user WHERE user.id = game.WinningPlayerId ) AS Winner,\n" +
@@ -285,6 +284,8 @@ public class DatabaseManager implements DataSource {  // subscribing to sign in 
             gameInformation.setStartTime(rs.getTimestamp("game.StartTime"));
             gameInformation.setEndTime(rs.getTimestamp("game.EndTime"));
             gameInformation.setPlayer1Username(rs.getString("Player1"));
+            gameInformation.setStartingPlayerUserName(rs.getString("StartingPlayer"));
+            gameInformation.setStartingPlayerId(rs.getString("StartingPlayerId"));
 
             if(gameInformation.getPlayer1Username()==null){
                 gameInformation.setPlayer1Username("Computer");
@@ -295,6 +296,7 @@ public class DatabaseManager implements DataSource {  // subscribing to sign in 
                 gameInformation.setPlayer2Username("Computer");
             }
             gameInformation.setWinningPlayerId(rs.getString("Winner"));
+            //gameInformation.setWinningPlayerUserName(rs.getString("Winner"));
 
             if(gameInformation.getWinningPlayerId()==null && gameInformation.getPlayer2Username().equals("Computer") ){
                 gameInformation.setWinningPlayerId("Computer");
@@ -303,8 +305,6 @@ public class DatabaseManager implements DataSource {  // subscribing to sign in 
                 gameInformation.setWinningPlayerId("Tie");
             }
 
-
-            gameInformation.setStartingPlayerId(rs.getString("StartingPlayer"));
 
             if(gameInformation.getStartingPlayerId()==null){
                 gameInformation.setStartingPlayerId("Computer");
